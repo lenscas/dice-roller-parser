@@ -1,6 +1,6 @@
 {
 	"name": "dice-roller-parser",
-	"version": "0.1.8",
+	"version": "0.1.9",
 	"description": "A javascript dice roller that parses roll20 format strings and generates rolled outputs",
 	"main": "dist/index.js",
 	"module": "dist/index.js",
@@ -18,7 +18,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/BTMorton/dice_roller.git"
+		"url": "git+https://github.com/3d-dice/dice-roller-parser.git"
 	},
 	"keywords": [
 		"dice",
@@ -35,11 +35,16 @@
 		"pathfinder"
 	],
 	"author": "Ben Morton <ben.morton91@gmail.com>",
+	"contributors": [
+    {
+      "name": "Frank Ali <frankieali4@gmail.com>"
+    }
+  ],
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/BTMorton/dice_roller/issues"
+		"url": "https://github.com/3d-dice/dice-roller-parser/issues"
 	},
-	"homepage": "https://github.com/BTMorton/dice_roller#readme",
+	"homepage": "https://github.com/3d-dice/dice-roller-parser#readme",
 	"devDependencies": {
 		"@types/jest": "^25.1.4",
 		"@types/node": "^13.9.2",

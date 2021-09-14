@@ -2,6 +2,9 @@
 
 This dice roller is a string parser that returns an object containing the component parts of the dice roll. It supports the full [Roll20 Dice Specification](https://roll20.zendesk.com/hc/en-us/articles/360037773133-Dice-Reference#DiceReference-Roll20DiceSpecification). It uses a [pegjs](https://github.com/pegjs/pegjs) grammar to create a [representation of the dice roll format](#parsed-roll-output). This can then be converted into a simple number value, or to a [complex object](#roll-result-output) used to display the full roll details.
 
+## Credit
+This is a fork of Ben Morton's [dice_roller](https://github.com/BTMorton/dice_roller) project. It had a few bugs so I'm republishing with fixes and features needed for my projects.
+
 ## Quickstart
 
 Install the library using:
