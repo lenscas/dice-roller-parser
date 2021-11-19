@@ -157,7 +157,7 @@ FullRoll = roll:TargetedRoll _ label:Label? {
 	return roll;
 }
 
-TargetedRoll = head:RolledModRoll mods:(DropMod / KeepMod / SuccessMod / FailureMod / CriticalFailureMod / CriticalSuccessMod)* match:MatchMod? sort:(SortAscMod / SortDescMod)? {
+TargetedRoll = head:RolledModRoll mods:(DropMod / KeepMod / SuccessMod / FailureMod / CriticalFailureMod / CriticalSuccessMod)* match:MatchMod? sort:(SortMod)? {
 	const targets = mods.filter((mod) => ["success", "failure"].includes(mod.type));
 	mods = mods.filter((mod) => !targets.includes(mod));
 
@@ -178,17 +178,16 @@ TargetedRoll = head:RolledModRoll mods:(DropMod / KeepMod / SuccessMod / Failure
 	return head;
 }
 
-SortAscMod = "sa" {
+SortMod = "s" dir:("a" / "d")? {
+	if(dir == "d"){
+		return {
+			type: "sort",
+			asc: false
+		}
+	}
 	return {
 		type: "sort",
 		asc: true
-	}
-}
-
-SortDescMod = "sd" {
-	return {
-		type: "sort",
-		asc: false
 	}
 }
 

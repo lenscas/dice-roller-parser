@@ -1,4 +1,7 @@
 import * as dist from "../dist/index";
+import {
+	RollBase
+} from "../src/rollTypes";
 
 const testRolls: [string, number][] = [
 	["d20+5", 1 + 5],
@@ -72,7 +75,7 @@ const testFixedRolls: [string, number, number[]][] = [
 
 let externalCount: number = 0
 let rollsAsFloats: Array<number> = []
-const fixedRoller = new dist.DiceRoller((rolls: Array<number> = rollsAsFloats)=>{
+const fixedRoller = new dist.DiceRoller((rolls: Array<number> = rollsAsFloats) =>{
 	if(rolls.length > 0) {
 		return rolls[externalCount++]
 	} else {
@@ -87,4 +90,18 @@ testFixedRolls.forEach(([roll, expectedValue, values]) => {
 		rollsAsFloats = values
 		expect(fixedRoller.rollValue(roll)).toBe(expectedValue)
 	});
+});
+
+const testSortRolls: [string, number[], number[]][] = [
+	['5d6sd', [6,5,4,2,1], [.67, .5, .17, .84, 0]], // value = [5,4,2,6,1]
+	['5d6sa', [1,2,4,5,6], [.67, .5, .17, .84, 0]], // value = [5,4,2,6,1]
+	['4d6s', [1,3,4,6], [.84, 0, .5, .34]], // value = [6,1,4,3]
+]
+
+testSortRolls.forEach(([roll, expectedValue, values]) => {
+	externalCount = 0
+	rollsAsFloats = values
+	const result:any = fixedRoller.roll(roll)
+	const diceOrder = result.rolls.map((roll:RollBase) => roll.value)
+	expect(diceOrder).toStrictEqual(expectedValue)
 });
