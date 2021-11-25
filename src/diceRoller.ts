@@ -148,20 +148,25 @@ export class DiceRoller {
 			...this.rollType(roll),
 			order,
 		}));
+		let successes = 0
+		let failures = 0
+		let hasTarget = false
 
 		// TODO: single sub roll vs. multiple sub rolls -- https://wiki.roll20.net/Dice_Reference#Grouped_Roll_Modifiers
 
 		if (input.mods) {
 			const mods = input.mods;
 			const applyGroupMods = (dice: RollBase[]) => {
-				const isSuccess = mods.some((mod) => ["failure", "success"].includes(mod.type));
+				hasTarget = mods.some((mod) => ["failure", "success"].includes(mod.type));
 				dice = mods
 					.reduce((arr, mod) => this.applyGroupMod(arr, mod), dice);
 
-				if (isSuccess) {
+				if (hasTarget) {
 					dice = dice.map((die) => {
+						successes += die.successes
+						failures += die.failures
 						die.value = die.successes - die.failures
-						die.success = die.value > 0;
+						die.success = die.value > 0
 						return die;
 					});
 				}
@@ -189,14 +194,16 @@ export class DiceRoller {
 			}
 		}
 
+		const value = rolls.reduce((sum, roll) => !roll.valid ? sum : sum + roll.value, 0)
+
 		return {
 			dice: rolls,
-			success: null,
-			successes: 0,
-			failures: 0,
+			success: hasTarget ? value > 0 : null,
+			successes,
+			failures,
 			type: "grouproll",
 			valid: true,
-			value: rolls.reduce((sum, roll) => !roll.valid ? sum : sum + roll.value, 0),
+			value,
 			order: 0,
 		}
 	}
