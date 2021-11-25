@@ -8,6 +8,8 @@ import {
 	RollBase, DiceExpressionRoll, GroupRoll, DiceRollResult, DieRollBase, ExpressionRoll, DieRoll, FateDieRoll, GroupedRollBase, MathFunctionRoll
 } from "./rollTypes";
 
+// TODO: [[ {[[1d6]], 5}kh1 ]] fails due to white space "[[ {" - perhaps add .?* to pegjs file to allow optional spaces
+
 export class DiceRoller {
 	public randFunction: () => number = Math.random;
 	public maxRollCount = 1000;
@@ -87,7 +89,9 @@ export class DiceRoller {
 			case "number":
 				response = {
 					...(input as NumberType),
-					success: false,
+					success: null,
+					successes: 0,
+					failures: 0,
 					valid: true,
 					order: 0,
 				}
@@ -129,7 +133,9 @@ export class DiceRoller {
 		return {
 			dice: rolls,
 			ops,
-			success: false,
+			success: null,
+			successes: 0,
+			failures: 0,
 			type: "diceexpressionroll",
 			valid: true,
 			value,
@@ -143,6 +149,8 @@ export class DiceRoller {
 			order,
 		}));
 
+		// TODO: single sub roll vs. multiple sub rolls -- https://wiki.roll20.net/Dice_Reference#Grouped_Roll_Modifiers
+
 		if (input.mods) {
 			const mods = input.mods;
 			const applyGroupMods = (dice: RollBase[]) => {
@@ -152,10 +160,8 @@ export class DiceRoller {
 
 				if (isSuccess) {
 					dice = dice.map((die) => {
-						if (!die.success) {
-							die.value = 0;
-							die.success = true;
-						}
+						die.value = die.successes - die.failures
+						die.success = die.value > 0;
 						return die;
 					});
 				}
@@ -185,7 +191,9 @@ export class DiceRoller {
 
 		return {
 			dice: rolls,
-			success: false,
+			success: null,
+			successes: 0,
+			failures: 0,
 			type: "grouproll",
 			valid: true,
 			value: rolls.reduce((sum, roll) => !roll.valid ? sum : sum + roll.value, 0),
@@ -205,7 +213,9 @@ export class DiceRoller {
 		if (input.die.type === "fate") {
 			die = {
 				type: "fate",
-				success: false,
+				success: null,
+				successes: 0,
+				failures: 0,
 				valid: false,
 				value: 0,
 				order: 0,
@@ -225,10 +235,8 @@ export class DiceRoller {
 			rolls = input.targets
 				.reduce((moddedRolls, target) => this.applyMod(moddedRolls, target), rolls)
 				.map((roll) => {
-					if (!roll.success) {
-						roll.value = 0;
-						roll.success = true;
-					}
+					roll.value = roll.successes - roll.failures
+					roll.success = roll.value > 0;
 					return roll;
 				});
 		}
@@ -265,7 +273,9 @@ export class DiceRoller {
 			count,
 			die,
 			rolls,
-			success: false,
+			success: null,
+			successes: 0,
+			failures: 0,
 			type: "die",
 			valid: true,
 			value: matched ? matchCount : rolls.reduce((sum, roll) => !roll.valid ? sum : sum + roll.value, 0),
@@ -306,7 +316,9 @@ export class DiceRoller {
 		return {
 			dice: rolls,
 			ops,
-			success: false,
+			success: null,
+			successes: 0,
+			failures: 0,
 			type: "expressionroll",
 			valid: true,
 			value,
@@ -339,7 +351,9 @@ export class DiceRoller {
 		return {
 			expr,
 			op: input.op,
-			success: false,
+			success: null,
+			successes: 0,
+			failures: 0,
 			type: "mathfunction",
 			valid: true,
 			value,
@@ -461,12 +475,7 @@ export class DiceRoller {
 				if (!roll.valid) { return roll; }
 
 				if (this.successTest(mod.mod, exprResult.value, lookup(roll))) {
-					if (roll.success) {
-						roll.value += 1;
-					} else {
-						roll.value = 1;
-						roll.success = true;
-					}
+					roll.successes += 1
 				}
 				return roll;
 			});
@@ -481,12 +490,7 @@ export class DiceRoller {
 				if (!roll.valid) { return roll; }
 
 				if (this.successTest(mod.mod, exprResult.value, lookup(roll))) {
-					if (roll.success) {
-						roll.value -= 1;
-					} else {
-						roll.value = -1;
-						roll.success = true;
-					}
+					roll.failures += 1
 				}
 				return roll;
 			});
@@ -746,7 +750,9 @@ export class DiceRoller {
 			matched: false,
 			order,
 			roll,
-			success: false,
+			success: null,
+			successes: 0,
+			failures: 0,
 			type: "roll",
 			valid: true,
 			value: roll,
@@ -760,7 +766,9 @@ export class DiceRoller {
 			matched: false,
 			order,
 			roll,
-			success: false,
+			success: null,
+			successes: 0,
+			failures: 0,
 			type: "fateroll",
 			valid: true,
 			value: roll,

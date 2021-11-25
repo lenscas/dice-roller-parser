@@ -16,8 +16,13 @@ export interface RollBase {
 	/**
 	 * Was the roll a success, for target number rolls
 	 * @example 3d6 > 3
+	 * null if no target was set
 	 */
-	success: boolean;
+	success: boolean | null;
+	/** The total target number roll successes */
+	successes: number;
+	/** The total target number roll failures */
+	failures: number;
 	/** The type of roll that this object represents */
 	type: RollType;
 	/** Is the roll still valid, and included in calculations */
