@@ -280,7 +280,7 @@ export class DiceRoller {
 			count,
 			die,
 			rolls,
-			success: value > 0,
+			success: input.targets ? value > 0 : null,
 			successes,
 			failures,
 			type: "die",
