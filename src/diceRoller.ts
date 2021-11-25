@@ -231,12 +231,17 @@ export class DiceRoller {
 				.reduce((moddedRolls, mod) => this.applyMod(moddedRolls, mod), rolls);
 		}
 
+		let successes = 0
+		let failures = 0
+
 		if (input.targets) {
 			rolls = input.targets
 				.reduce((moddedRolls, target) => this.applyMod(moddedRolls, target), rolls)
 				.map((roll) => {
+					successes += roll.successes
+					failures += roll.failures
 					roll.value = roll.successes - roll.failures
-					roll.success = roll.value > 0;
+					roll.success = roll.value > 0
 					return roll;
 				});
 		}
@@ -269,16 +274,18 @@ export class DiceRoller {
 			rolls = this.applySort(rolls, input.sort);
 		}
 
+		const value = rolls.reduce((sum, roll) => !roll.valid ? sum : sum + roll.value, 0)
+
 		return {
 			count,
 			die,
 			rolls,
-			success: null,
-			successes: 0,
-			failures: 0,
+			success: value > 0,
+			successes,
+			failures,
 			type: "die",
 			valid: true,
-			value: matched ? matchCount : rolls.reduce((sum, roll) => !roll.valid ? sum : sum + roll.value, 0),
+			value: matched ? matchCount : value,
 			order: 0,
 			matched,
 		}
