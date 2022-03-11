@@ -669,7 +669,7 @@ export class DiceRoller {
 					roll.explode = true
 					const newRoll = this.reRoll(roll, ++i);
 					newRoll.value -= 1;
-					newRoll.roll -= 1;
+					// newRoll.roll -= 1;
 					rolls.splice(i, 0, newRoll);
 					roll = newRoll;
 				}
