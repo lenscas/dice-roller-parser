@@ -752,7 +752,7 @@ export class DiceRoller {
 	private generateDiceRoll(die: number, order: number): DieRoll {
 		// const roll = Math.floor(this.randFunction() * die) + 1;
 		// avoid floating math errors like .29 * 100 = 28.999999999999996
-		const roll = parseInt(Math.floor(this.randFunction() * die).toFixed(),10) + 1;
+		const roll = parseInt((this.randFunction() * die).toFixed(),10) + 1;
 
 		const critical = roll === die
 			? "success"
