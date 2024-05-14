@@ -345,7 +345,24 @@ MathFnExpression = op:MathFunction _ "(" _ expr:AddSubExpression _ ")" {
 	};
 }
 
-FunctionOrRoll = MathFnExpression / AnyRoll / BracketExpression
+quotation_mark
+	= '"'
+
+char
+	= [a-zA-Z0-9.\-_]
+
+ReplacementFunction = "custom"
+
+ReplacementFnExpression = op:ReplacementFunction _ "(" _ quotation_mark chars:char* quotation_mark _ ","  _ expr:AddSubExpression _ ")" {
+	return {
+		type: "replacement",
+		op,
+		expr,
+		called: chars.join("")
+	}
+}
+
+FunctionOrRoll = ReplacementFnExpression / MathFnExpression / AnyRoll / BracketExpression
 
 Integer "integer" = "-"? [0-9]+ {
 	const num = parseInt(text(), 10);

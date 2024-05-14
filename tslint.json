@@ -7,7 +7,7 @@
 			"options": "ignore-same-line"
 		},
 		"indent": {
-			"options": "tabs"
+			"options": "spaces"
 		},
 		"max-line-length": false,
 		"member-ordering": {

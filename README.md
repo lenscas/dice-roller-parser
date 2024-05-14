@@ -1,8 +1,19 @@
+# THIS IS A FORK
+
+This is a fork from https://github.com/3d-dice/dice-roller-parser
+
+I did not use githubs fork feature as I am not planning to push my changes upstream. This is because
+
+A: That project is itself a fork
+B: Both it and that fork seem pretty much dead
+C: M changes are not made for better/more roll20 compatibility but rather to take the project (and its syntax) its own course
+
 # Dice Roller & Parser
 
 This dice roller is a string parser that returns an object containing the component parts of the dice roll. It supports the full [Roll20 Dice Specification](https://roll20.zendesk.com/hc/en-us/articles/360037773133-Dice-Reference#DiceReference-Roll20DiceSpecification). It uses a [pegjs](https://github.com/pegjs/pegjs) grammar to create a [representation of the dice roll format](#parsed-roll-output). This can then be converted into a simple number value, or to a [complex object](#roll-result-output) used to display the full roll details.
 
 ## Credit
+
 This is a fork of Ben Morton's [dice_roller](https://github.com/BTMorton/dice_roller) project. It had a few bugs so I'm republishing with fixes and features needed for my projects.
 
 ## Quickstart
@@ -96,9 +107,9 @@ roller.maxRollCount = 75;
 
 Once the `DiceRoller` class has been constructed, there are three options for performing a dice roll:
 
--   Getting a roll result directly
--   Generate an object to represent the dice roll
--   Just parse the input and add your own rolling logic
+- Getting a roll result directly
+- Generate an object to represent the dice roll
+- Just parse the input and add your own rolling logic
 
 ##### Getting a direct roll result
 
@@ -235,15 +246,15 @@ The base class for all die rolls, extended based upon the type property.
 
 An enum of the valid types of roll. The possible values are:
 
--   `"number"`
--   [`"diceexpressionroll"`](#DiceExpressionRoll)
--   [`"expressionroll"`](#ExpressionRoll)
--   [`"mathfunction"`](#MathFunctionRoll)
--   [`"grouproll"`](#GroupRoll)
--   `"fate"`
--   [`"die"`](#DiceRollResult)
--   [`"roll"`](#DieRoll)
--   [`"fateroll"`](#FateDieRoll)
+- `"number"`
+- [`"diceexpressionroll"`](#DiceExpressionRoll)
+- [`"expressionroll"`](#ExpressionRoll)
+- [`"mathfunction"`](#MathFunctionRoll)
+- [`"grouproll"`](#GroupRoll)
+- `"fate"`
+- [`"die"`](#DiceRollResult)
+- [`"roll"`](#DieRoll)
+- [`"fateroll"`](#FateDieRoll)
 
 #### `GroupedRoll`
 
@@ -364,29 +375,29 @@ The following interfaces are exposed by the library as a reresentation of the pa
 
 An enum of the valid types of roll. The possible values are:
 
--   [`"number"`](#NumberType)
--   [`"inline"`](#InlineExpression)
--   [`"success"`](#SuccessFailureCritModType)
--   [`"failure"`](#SuccessFailureCritModType)
--   [`"crit"`](#SuccessFailureCritModType)
--   [`"critfail"`](#SuccessFailureCritModType)
--   [`"match"`](#MatchModType)
--   [`"keep"`](#KeepDropModType)
--   [`"drop"`](#KeepDropModType)
--   [`"group"`](#GroupedRoll)
--   [`"diceExpression"`](#RollExpressionType)
--   [`"sort"`](#SortRollType)
--   [`"explode"`](#ReRollMod)
--   [`"compound"`](#ReRollMod)
--   [`"penetrate"`](#ReRollMod)
--   [`"reroll"`](#ReRollMod)
--   [`"rerollOnce"`](#ReRollMod)
--   [`"target"`](#TargetMod)
--   [`"die"`](#DiceRoll)
--   [`"fate"`](#FateExpr)
--   [`"expression"`](#MathExpression)
--   [`"math"`](#MathType)
--   [`"mathfunction"`](#MathFunctionExpression)
+- [`"number"`](#NumberType)
+- [`"inline"`](#InlineExpression)
+- [`"success"`](#SuccessFailureCritModType)
+- [`"failure"`](#SuccessFailureCritModType)
+- [`"crit"`](#SuccessFailureCritModType)
+- [`"critfail"`](#SuccessFailureCritModType)
+- [`"match"`](#MatchModType)
+- [`"keep"`](#KeepDropModType)
+- [`"drop"`](#KeepDropModType)
+- [`"group"`](#GroupedRoll)
+- [`"diceExpression"`](#RollExpressionType)
+- [`"sort"`](#SortRollType)
+- [`"explode"`](#ReRollMod)
+- [`"compound"`](#ReRollMod)
+- [`"penetrate"`](#ReRollMod)
+- [`"reroll"`](#ReRollMod)
+- [`"rerollOnce"`](#ReRollMod)
+- [`"target"`](#TargetMod)
+- [`"die"`](#DiceRoll)
+- [`"fate"`](#FateExpr)
+- [`"expression"`](#MathExpression)
+- [`"math"`](#MathType)
+- [`"mathfunction"`](#MathFunctionExpression)
 
 #### `ParsedType`
 
@@ -431,9 +442,9 @@ This object represents an inline dice expression within a string, wrapped in dou
 
 A combined type representing any valid roll. This is a combination of the following types:
 
--   [`GroupedRoll`](#GroupedRoll)
--   [`FullRoll`](#FullRoll)
--   [`NumberType`](#NumberType)
+- [`GroupedRoll`](#GroupedRoll)
+- [`FullRoll`](#FullRoll)
+- [`NumberType`](#NumberType)
 
 #### `ModGroupedRoll`
 
@@ -557,15 +568,15 @@ An object representing a roll expression including complex rolls and groups, onl
 
 A helper type combination of a complex roll expression, a roll, or a math expression. Represents the following types:
 
--   [`RollExpressionType`](#RollExpressionType)
--   [`RollOrExpression`](#RollOrExpression)
+- [`RollExpressionType`](#RollExpressionType)
+- [`RollOrExpression`](#RollOrExpression)
 
 #### `RollOrExpression`
 
 A helper type combination of a roll, or a math expression. Represents the following types:
 
--   [`FullRoll`](#FullRoll)
--   [`Expression`](#Expression)
+- [`FullRoll`](#FullRoll)
+- [`Expression`](#Expression)
 
 #### `FullRoll`
 
@@ -599,11 +610,11 @@ A sort operation to apply to a roll. This object extends the [`ParsedType`](#Par
 
 An object representing a re-roll operation to apply to a roll. Can be one of the following types:
 
--   `"explode"`: re-rolls any dice that meet the target, continuing if the new roll matches
--   `"compound"`: re-rolls any dice that meet the target, continuing if the new roll matches and adding the results into a single roll
--   `"penetrate"`: re-rolls any dice that meet the target subtracting 1 from the new value, continuing if the new roll matches
--   `"reroll"`: re-rolls a die as long as it meets the target, keeping the final roll
--   `"rerollOnce"`: re-rolls a die once if it meets the target, keeping the new roll
+- `"explode"`: re-rolls any dice that meet the target, continuing if the new roll matches
+- `"compound"`: re-rolls any dice that meet the target, continuing if the new roll matches and adding the results into a single roll
+- `"penetrate"`: re-rolls any dice that meet the target subtracting 1 from the new value, continuing if the new roll matches
+- `"reroll"`: re-rolls a die as long as it meets the target, keeping the final roll
+- `"rerollOnce"`: re-rolls a die once if it meets the target, keeping the new roll
 
 **Example**
 
@@ -654,15 +665,15 @@ The representation of a fate die roll. This object extends the [`ParsedType`](#P
 
 A helper type combination of a number or value that is not an expression. Represents the following types:
 
--   [`MathExpression`](#MathExpression)
--   [`NumberType`](#NumberType)
+- [`MathExpression`](#MathExpression)
+- [`NumberType`](#NumberType)
 
 #### `Expression`
 
 A helper type combination of expression types. Represents the following types:
 
--   [`InlineExpression`](#InlineExpression)
--   [`MathExpression`](#MathExpression)
+- [`InlineExpression`](#InlineExpression)
+- [`MathExpression`](#MathExpression)
 
 #### `MathExpression`
 
