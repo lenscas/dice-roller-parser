@@ -14,7 +14,8 @@
 		"clean": "rimraf dist/ src/diceroll.js",
 		"test": "jest",
 		"prepublishOnly": "npm run build",
-		"prepare": "npm run build"
+		"prepare": "npm run build",
+		"prepack": "npm run build"
 	},
 	"repository": {
 		"type": "git",
